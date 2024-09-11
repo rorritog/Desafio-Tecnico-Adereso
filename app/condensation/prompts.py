@@ -34,7 +34,7 @@ def generate_user_prompt(article_data):
     """
 
     for index,fragment in enumerate(article_data['fragments']):
-        prompt_content += f"{index+1}:\n\n{fragment}\n\n"
+        prompt_content += f"{index+1}:\n{fragment}\n\n"
 
     # Ajuste según el contenido en la url del artículo.
     prinpal_concept = article_data['url_relevant_tokens'][:1]
@@ -43,6 +43,13 @@ def generate_user_prompt(article_data):
     sub_concepts = article_data['url_relevant_tokens'][1:]
     if sub_concepts:
         prompt_content += f"the content of the article is related to this topics: {', '.join(sub_concepts)}"
+
+    # Si existen tags ya generados utilizar mismos nombres
+    if 'alredy_generated_tasks' in article_data and article_data['alredy_generated_tasks']:
+        prompt_content += f"""
+            Here is a list of tags already used in other fragments: {', '.join(article_data['alredy_generated_tasks'])}.
+            Check if any of the fragments tags can be replaced or matched with a similar tag defined on the list. 
+        """
 
     prompt_content += f"""
         This fragments in order form the complete article. The article reference url is: {article_data['url']}.

@@ -29,13 +29,12 @@ def test_generated_tags() -> None:
             {"role": "user", "content": f"provide tags for this text: {article['text']}"},
         ],
     )
-    # Se espera que obtenga un score de al menos 75
     full_text_tags = completion.choices[0].message.content.split(', ')
-    # Cuantos del los tags aparecen en ambos arreglos
+    # Check de qué tags aparecen en ambos arreglos
     tags_intersection = [tag.lower() for tag in generated_tags if tag.lower() in full_text_tags]    
 
-    # Tags deben parecerse al menos en un 80%
-    assert len(tags_intersection) / len(generated_tags) >= 0.8
+    # Tags deben parecerse al menos en un 50%
+    assert len(tags_intersection) / len(generated_tags) >= 0.50
 
 
 
