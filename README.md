@@ -16,7 +16,6 @@ Prueba técnica para la postulación al cargo de desarrollador full stack en la 
 Este repositorio completa el desafío técnico para el puesto de desarrollador full stack en Adereso. El desafío consistente en fragmentar y resumir información acerca de las documentaciones para usuarios de Adereso. Se presenta como entrada un archivo jsonl que contiene todos los docs públicos de la empresa y se busca aplicar el procesamiento de datos en los de tipo Artículo.
 
 
-
 ## Procedimientos
 Para llevar a cabo el cometido de este desafío se llevan a cabo tres procedimientos principales. Cada uno de estos prodecimientos está acompañado con su lógica en módulos separados.
 
@@ -40,7 +39,7 @@ Antes de comenzar asegurate de cumplir con los siguientes requisitos:
     ```
     git clone https://github.com/rorritog/Desaf-o-Adereso.git
     ```
-2. [Opcional] Utilizar un entorno virtual.
+2. [Opcional] Utilizar un entorno virtual:
     ```
     python -m venv venv
     ./venv/Scripts/activate
@@ -55,11 +54,12 @@ Antes de comenzar asegurate de cumplir con los siguientes requisitos:
     ```
     cp .env.example .env
     ```
-    Para mayor información de este paso visitar la sección [Configuración](#configuración)
+    Para mayor información de este paso visitar la sección [Configuración](#configuración).
 5. Ejecutar el archivo main.py:
     ```
     python main.py
     ```
+    Para mayor información de este paso visitar la sección [Uso](#uso).
 
 ## Configuración
 ### .env
@@ -85,7 +85,20 @@ LOGGING_PATH = 'app.log'
 
 ## Uso
 
-TBD
+Para ejecutar la aplicación es necesario ejecutar el archivo ```main.py```. 
+
+La aplicación soporta la configuración de dos parámetros a través de argumentos por línea de comandos.
+
+- `--input | -i`: Path del archivo jsonl de entrada.
+- `--output | -o`: Filename del archivo jsonl de salida. 
+- `--help | -h`: Muestra un mensaje de ayuda para estos parámetros.
+
+De no ser recibidos los parámetros, la aplicación tomará los valores configurados en `app/configs.py`.
+
+### Ejemplo de ejecución
+```
+python main.py -i ./adereso_cda.jsonl -o fragmentos_20240911.jsonl
+```
 
 ## Pruebas Unitarias
 La app puede ser sometida a pruebas unitarias definidas en cada módulo a través de la herramienta [pytest](https://docs.pytest.org/en/stable/). Las pruebas unitarias pueden ser corridas con siguiente comando dentro del directorio raiz y en el entorno de ejecución del programa:

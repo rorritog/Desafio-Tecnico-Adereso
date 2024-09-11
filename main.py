@@ -10,6 +10,7 @@ def main():
     input_articles = read_jsonl(FILE_INPUT_PATH)
     log.info(f"Total de articulos leidos: {len(input_articles)}")
 
+    # procesar articulos
     output_fragments = []
     log.info(f"Procesando articulos")
     for index, article in enumerate(input_articles):

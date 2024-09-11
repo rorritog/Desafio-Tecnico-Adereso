@@ -4,6 +4,7 @@ import os
 import sys
 import atexit
 import logging
+import argparse
 
 def restore_previous_api_key(OPENAI_API_KEY: str) -> None:
     """
@@ -36,6 +37,23 @@ def start_logging(log_path: str) -> None:
         ]
     )
 
+def handle_args() -> None:
+    """
+    Manejo de los argumentos del script 
+    """
+    parser = argparse.ArgumentParser(description="Prueba técnica Adereso Rodrigo Galleguillos")
+    # Argumentos del script
+    parser.add_argument('-i', '--input', type=str, required=False, help="Path del archivo jsonl de entrada.")
+    parser.add_argument('-o', '--output', type=str, required=False, help="Filename del archivo jsonl de salida.")
+
+    args = parser.parse_args()
+    if args.input:
+        global FILE_INPUT_PATH
+        FILE_INPUT_PATH = args.input
+    if args.output:
+        global FILE_OUTPUT_PATH
+        FILE_OUTPUT_PATH = args.output
+
 
 # Configuraciones del uso
 ## Cantidad máxima de tokens aceptada para un fragmento.
@@ -52,6 +70,7 @@ LOGGING_PATH = 'app.log'
 # Inicializar modulos
 start_logging(LOGGING_PATH)
 load_env()
+handle_args()
 
 
 
