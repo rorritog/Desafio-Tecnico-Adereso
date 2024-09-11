@@ -58,7 +58,7 @@ def handle_args() -> None:
 # Configuraciones del uso
 ## Cantidad máxima de tokens aceptada para un fragmento.
 FRAGMENTS_MAX_TOKENS = 1000
-## Configuraciones de el Modelo LLM a utilizar
+## Configuraciones del Modelo LLM a utilizar
 OPENAI_LLM_MODEL = 'gpt-4o-mini'
 OPENAI_LLM_TEMPERATURE = 0
 ## Configuraciones de los archivos de entrada y salida
