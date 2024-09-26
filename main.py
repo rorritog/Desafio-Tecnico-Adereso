@@ -15,7 +15,7 @@ def main():
     already_generated_tag = set()
     log.info(f"Procesando articulos")
     for index, article in enumerate(input_articles):
-        article['alredy_generated_tasks'] = list(already_generated_tag)
+        article['already_generated_tags'] = list(already_generated_tag)
 
         log.info(f"Fragmentando articulo {index+1}")
         fragmented_article = fragmentize_article(article)

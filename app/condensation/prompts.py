@@ -45,9 +45,9 @@ def generate_user_prompt(article_data):
         prompt_content += f"the content of the article is related to this topics: {', '.join(sub_concepts)}"
 
     # Si existen tags ya generados utilizar mismos nombres
-    if 'alredy_generated_tasks' in article_data and article_data['alredy_generated_tasks']:
+    if 'already_generated_tags' in article_data and article_data['already_generated_tags']:
         prompt_content += f"""
-            Here is a list of tags already used in other fragments: {', '.join(article_data['alredy_generated_tasks'])}.
+            Here is a list of tags already used in other fragments: {', '.join(article_data['already_generated_tags'])}.
             Check if any of the fragments tags can be replaced or matched with a similar tag defined on the list. 
         """
 
