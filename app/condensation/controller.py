@@ -1,11 +1,18 @@
 
 from openai import OpenAI
-from app.configs import OPENAI_LLM_MODEL, OPENAI_LLM_TEMPERATURE
+from sentence_transformers import SentenceTransformer
+from app.configs import COSINE_SIMILARITY_THRESHOLD, OPENAI_LLM_MODEL, OPENAI_LLM_TEMPERATURE, TRANSFORMERS_EMBEDING_MODEL
 from app.condensation.prompts import get_system_prompt, generate_user_prompt
+from app.condensation.vector_operations import cosine_similarity
 from uuid import uuid1
+
 import json
 
+# Open AI client para la fragmentación de articulos
 openai_client = OpenAI()
+# Transformers model para la transformacion de strings a vectores
+embedding_model = SentenceTransformer(TRANSFORMERS_EMBEDING_MODEL)
+
 
 def generate_article_fragments(article: dict) -> list:
     """
@@ -37,3 +44,28 @@ def assign_fragments_references(fragments: list) -> list:
         fragment['related_fragments'] = [uuid for uuid in generated_uuids if uuid != fragment_uuid]
 
     return fragments_with_references
+
+
+def assign_cross_fragments_references(fragments: list) -> list:
+    """
+    Asigna referencias cruzadas entre distintos fragmentos a través del calculo de la similitud coseno entre los resumenes.
+    """
+    fragments_with_cross_references = fragments.copy()
+
+    # Vectorización de cada resumen de fragmentos
+    embeddings = {}
+    for fragment in fragments_with_cross_references:
+        embeddings[fragment['uuid']] = embedding_model.encode(fragment['summary'])
+
+    # Cálculo de la similitud entre resúmenes
+    for fragment in fragments_with_cross_references:
+        for related_fragment_uuid, related_fragment_embedding in embeddings.items():
+            # Saltar fragmentos ya relacionados
+            if related_fragment_uuid == fragment['uuid'] or related_fragment_uuid in fragment['related_fragments']:
+                continue
+
+            fragment_embedding = embeddings[fragment['uuid']]
+            if cosine_similarity(fragment_embedding, related_fragment_embedding) >= COSINE_SIMILARITY_THRESHOLD:
+                fragment['related_fragments'].append(related_fragment_uuid)
+
+    return fragments_with_cross_references

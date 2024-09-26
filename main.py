@@ -1,5 +1,5 @@
 from app.configs import FILE_INPUT_PATH, FILE_OUTPUT_PATH
-from app.condensation.controller import generate_article_fragments, assign_fragments_references
+from app.condensation.controller import assign_cross_fragments_references, generate_article_fragments, assign_fragments_references
 from app.fragmentation.controller import fragmentize_article
 from app.jsonl_handler.controller import read_jsonl, write_jsonl
 import logging as log
@@ -26,7 +26,13 @@ def main():
         for fragment in processed_fragments:
             already_generated_tag.update(fragment['tags'])
 
+        # Asignar referencias entre fragmentos del mismo artículo
         output_fragments +=  assign_fragments_references(processed_fragments)
+
+    # Asignar referencias entre fragmentos relacionados con otros articulos
+    log.info(f"Calculando la relación entre fragmentos de distintos articulos")
+    assign_cross_fragments_references(output_fragments)
+
     # Escribir el resultado
     log.info(f"Escribiendo archivo de salida: {FILE_OUTPUT_PATH}")
     write_jsonl(output_fragments,FILE_OUTPUT_PATH)

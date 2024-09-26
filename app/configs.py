@@ -66,6 +66,9 @@ FILE_INPUT_PATH = 'adereso_cda .jsonl'
 FILE_OUTPUT_PATH = 'adereso_cda_fragments.jsonl'
 ## Configuración de logging
 LOGGING_PATH = 'app.log'
+## Configuraciones del modelo de embedding
+TRANSFORMERS_EMBEDING_MODEL = 'paraphrase-MiniLM-L6-v2'
+COSINE_SIMILARITY_THRESHOLD = 0.85
 
 # Inicializar modulos
 start_logging(LOGGING_PATH)
